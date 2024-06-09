@@ -14,6 +14,12 @@ public class CreateUserOperationClaimCommand : IRequest<CreatedUserOperationClai
     public Guid UserId { get; set; }
     public int OperationClaimId { get; set; }
 
+    public CreateUserOperationClaimCommand(Guid userId, int operationClaimId)
+    {
+        UserId = userId;
+        OperationClaimId = operationClaimId;
+    }
+
     public string[] Roles => new[] { Admin, Write, UserOperationClaimsOperationClaims.Create };
 
     public class CreateUserOperationClaimCommandHandler

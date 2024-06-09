@@ -4,15 +4,16 @@ using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using NArchitecture.Core.Application.Pipelines.Authorization;
 
 namespace Application.Features.Users.Queries.GetById;
 
-public class GetByIdUserQuery : IRequest<GetByIdUserResponse>, ISecuredRequest
+public class GetByIdUserQuery : IRequest<GetByIdUserResponse>//, ISecuredRequest
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Read];
+    //public string[] Roles => [UsersOperationClaims.Read];
 
     public class GetByIdUserQueryHandler : IRequestHandler<GetByIdUserQuery, GetByIdUserResponse>
     {
@@ -31,6 +32,7 @@ public class GetByIdUserQuery : IRequest<GetByIdUserResponse>, ISecuredRequest
         {
             User? user = await _userRepository.GetAsync(
                 predicate: b => b.Id.Equals(request.Id),
+                include: q => q.Include(a => a.Enrollments),
                 enableTracking: false,
                 cancellationToken: cancellationToken
             );

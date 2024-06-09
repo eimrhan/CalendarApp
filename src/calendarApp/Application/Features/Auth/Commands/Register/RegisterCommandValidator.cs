@@ -11,7 +11,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
         RuleFor(c => c.UserForRegisterDto.Password)
             .NotEmpty()
             .MinimumLength(6)
-            .Must(StrongPassword)
+            //.Must(StrongPassword)
             .WithMessage(
                 "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character."
             );

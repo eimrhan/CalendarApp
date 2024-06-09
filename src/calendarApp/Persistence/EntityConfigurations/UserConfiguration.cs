@@ -19,6 +19,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(u => u.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(u => u.DeletedDate).HasColumnName("DeletedDate");
+        builder.Property(u => u.UserName).HasColumnName("UserName").IsRequired();
 
         builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
 
@@ -26,6 +27,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.RefreshTokens);
         builder.HasMany(u => u.EmailAuthenticators);
         builder.HasMany(u => u.OtpAuthenticators);
+        builder.HasMany(u => u.Enrollments);
+
 
         builder.HasData(_seeds);
 
@@ -46,6 +49,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 new()
                 {
                     Id = AdminId,
+                    UserName = "AdminUser",
                     Email = "narch@kodlama.io",
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt

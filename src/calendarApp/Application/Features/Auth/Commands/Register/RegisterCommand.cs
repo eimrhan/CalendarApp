@@ -11,7 +11,7 @@ namespace Application.Features.Auth.Commands.Register;
 
 public class RegisterCommand : IRequest<RegisteredResponse>
 {
-    public UserForRegisterDto UserForRegisterDto { get; set; }
+    public UserRegisterDto UserForRegisterDto { get; set; }
     public string IpAddress { get; set; }
 
     public RegisterCommand()
@@ -20,7 +20,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
         IpAddress = string.Empty;
     }
 
-    public RegisterCommand(UserForRegisterDto userForRegisterDto, string ipAddress)
+    public RegisterCommand(UserRegisterDto userForRegisterDto, string ipAddress)
     {
         UserForRegisterDto = userForRegisterDto;
         IpAddress = ipAddress;
@@ -56,6 +56,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
                 new()
                 {
                     Email = request.UserForRegisterDto.Email,
+                    UserName = request.UserForRegisterDto.UserName,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                 };
@@ -69,7 +70,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
             );
             Domain.Entities.RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
-            RegisteredResponse registeredResponse = new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            RegisteredResponse registeredResponse = new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken};
             return registeredResponse;
         }
     }
