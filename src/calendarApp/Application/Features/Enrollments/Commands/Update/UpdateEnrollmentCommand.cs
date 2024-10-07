@@ -13,7 +13,7 @@ public class UpdateEnrollmentCommand : IRequest<UpdatedEnrollmentResponse>, ICac
 {
     public Guid Id { get; set; }
     public required Guid UserId { get; set; }
-    public required EnrollmentType Type { get; set; }
+    public EnrollmentType? Type { get; set; }
     public required string Title { get; set; }
     public required DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
